@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login with GitHub</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Login with GitHub</h1>
+        <p>To access the rest of the content, please login with GitHub:</p>
+        <a href="https://github.com/login/oauth/authorize?client_id=68e5422c9e2dc7dd280b&redirect_uri=http://127.0.0.1:3000/callback&scope=user"
+            class="github-button">Login with GitHub</a>
+        <div id="content" style="display:none;">
+            <h2>Welcome to my website!</h2>
+            <p>Here's the rest of the content that you can now access:</p>
+            <ul>
+                <li>Item 1</li>
+                <li>Item 2</li>
+                <li>Item 3</li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
