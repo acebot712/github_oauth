@@ -40,7 +40,7 @@ def get_html_from_file(filename: str) -> str:
 async def index():
     html_content = get_html_from_file("index.html")
     modified_html = html_content.replace('"#process.env.CLIENT_ID#"', CLIENT_ID)
-    return HTMLResponse(get_html_from_file("index.html"))
+    return HTMLResponse(modified_html)
 
 @app.post("/api/check-token")
 async def check_token(token_request: TokenRequest):
