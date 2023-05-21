@@ -30,6 +30,7 @@ app.add_middleware(
 # Replace these values with your actual GitHub client ID and secret
 CLIENT_ID = os.environ.get("CLIENT_ID",'')
 CLIENT_SECRET = os.environ.get("CLIENT_SECRET",'')
+EXTERNAL_IP = os.environ.get("EXTERNAL_IP", '')
 
 def get_html_from_file(filename: str) -> str:
     file_path = Path(__file__).resolve().parent / filename
@@ -39,7 +40,7 @@ def get_html_from_file(filename: str) -> str:
 @app.get("/")
 async def index():
     html_content = get_html_from_file("index.html")
-    modified_html = html_content.replace('"#process.env.CLIENT_ID#"', CLIENT_ID)
+    modified_html = html_content.replace('"#process.env.CLIENT_ID#"', CLIENT_ID).replace('"#process.env.EXTERNAL_IP#"', EXTERNAL_IP)
     return HTMLResponse(modified_html)
 
 @app.post("/api/check-token")
