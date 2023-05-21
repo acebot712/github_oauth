@@ -78,9 +78,9 @@ async def callback(request: Request, response: Response, code: str):
                 'Accept': 'application/json'
             },
             json={
-                'client_id': str(CLIENT_ID),
-                'client_secret': str(CLIENT_SECRET),
-                'code': str(code)
+                'client_id': CLIENT_ID,
+                'client_secret': CLIENT_SECRET,
+                'code': code
             }
         )
         token_data = token_response.json()
@@ -98,36 +98,37 @@ async def callback(request: Request, response: Response, code: str):
         print(user_data)
         print("FINE3")
 
-        conn = sqlite3.connect('database.db')
-        c = conn.cursor()
+        if user_data:
+            conn = sqlite3.connect('database.db')
+            c = conn.cursor()
 
-        # Create table
-        c.execute('''CREATE TABLE IF NOT EXISTS access_tokens 
-                    (user_id INTEGER PRIMARY KEY, login_id, access_token TEXT)''')
-        
-        # Check if the user_id already exists
-        c.execute('SELECT * FROM access_tokens WHERE user_id = ?', (user_data['id'],))
-        existing_row = c.fetchone()
+            # Create table
+            c.execute('''CREATE TABLE IF NOT EXISTS access_tokens 
+                        (user_id INTEGER PRIMARY KEY, login_id, access_token TEXT)''')
+            
+            # Check if the user_id already exists
+            c.execute('SELECT * FROM access_tokens WHERE user_id = ?', (user_data['id'],))
+            existing_row = c.fetchone()
 
-        if existing_row:
-            # Update the access_token column
-            c.execute('UPDATE access_tokens SET access_token = ? WHERE user_id = ?', 
-              (token_data['access_token'], user_data['id']))
-        else:
-            # Insert a new row
-            c.execute('INSERT INTO access_tokens (user_id, login_id, access_token) VALUES (?, ?, ?)', 
-              (user_data['id'], user_data['login'], token_data['access_token']))
+            if existing_row:
+                # Update the access_token column
+                c.execute('UPDATE access_tokens SET access_token = ? WHERE user_id = ?', 
+                (token_data['access_token'], user_data['id']))
+            else:
+                # Insert a new row
+                c.execute('INSERT INTO access_tokens (user_id, login_id, access_token) VALUES (?, ?, ?)', 
+                (user_data['id'], user_data['login'], token_data['access_token']))
 
-        # Commit changes
-        conn.commit()
+            # Commit changes
+            conn.commit()
 
-        # Close connection 
-        conn.close()
+            # Close connection 
+            conn.close()
 
-        return templates.TemplateResponse(
-            "success.html",
-            {"request": request, "user_data": user_data, "token_data": token_data}
-        )
+            return templates.TemplateResponse(
+                "success.html",
+                {"request": request, "user_data": user_data, "token_data": token_data}
+            )
     except Exception as e:
         print(e)
         response.status_code = 500
