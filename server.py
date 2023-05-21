@@ -71,6 +71,9 @@ async def check_token(token_request: TokenRequest):
 async def callback(request: Request, response: Response, code: str):
     try:
         print("FINE1")
+        print(CLIENT_ID)
+        print(CLIENT_SECRET)
+        print(code)
         token_response = requests.post(
             'https://github.com/login/oauth/access_token',
             headers={
