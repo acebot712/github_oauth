@@ -16,6 +16,10 @@ templates = Jinja2Templates(directory="templates")
 class TokenRequest(BaseModel):
     token: str
 
+class SignOutRequest(BaseModel):
+    user_id: str
+    login_id: str
+
 # Configure CORS
 origins = ["*"]
 
@@ -66,6 +70,30 @@ async def check_token(token_request: TokenRequest):
         return {"valid": True, "user_id": result['user_id'], "login_id": result['login_id']}
     else:
         return {"valid": False}
+    
+@app.post("/api/sign-out")
+async def sign_out(sign_out_request: SignOutRequest):
+    # Extract the token from the request
+    user_id = sign_out_request.user_id
+    login_id = sign_out_request.login_id
+
+    # Remove the access token from the database
+    try:
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+
+        # Remove the access token
+        c.execute("UPDATE access_tokens SET access_token = NULL WHERE user_id = ? AND login_id", (user_id, login_id,))
+
+        # Commit the changes
+        conn.commit()
+
+        # Close the database connection
+        conn.close()
+
+        return {"valid": True, "message": "Signed out successfully."}
+    except Exception as e:
+        return {"valid": False, "message": "An error occurred while signing out.", "error": str(e)}
 
 @app.get("/callback")
 async def callback(request: Request, response: Response, code: str):
