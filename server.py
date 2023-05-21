@@ -70,10 +70,6 @@ async def check_token(token_request: TokenRequest):
 @app.get("/callback")
 async def callback(request: Request, response: Response, code: str):
     try:
-        print("FINE1")
-        print(CLIENT_ID)
-        print(CLIENT_SECRET)
-        print(code)
         token_response = requests.post(
             'https://github.com/login/oauth/access_token',
             headers={
@@ -87,9 +83,6 @@ async def callback(request: Request, response: Response, code: str):
             }
         )
         token_data = token_response.json()
-        print(token_data)
-        print("FINE2")
-
         # Get the user's data using the access token
         user_response = requests.get(
             'https://api.github.com/user',
@@ -98,8 +91,6 @@ async def callback(request: Request, response: Response, code: str):
             }
         )
         user_data = user_response.json()
-        print(user_data)
-        print("FINE3")
 
         if user_data:
             conn = sqlite3.connect('database.db')
