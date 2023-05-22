@@ -1,10 +1,36 @@
 <html>
-    <head>
-        <title>Login with GitHub</title>
-    </head>
-    <body>
-        <h1>Login with GitHub</h1>
-        <p>You have successfully logged in with GitHub as {{ user_data.login }}.</p>
-        <p>Your access token is: {{ token_data.access_token }}</p>
-    </body>
+<head>
+    <title>Login with GitHub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        b {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Login with GitHub</h1>
+    <hr>
+    <p>You have successfully logged in with GitHub as <b>{{ user_data.login }}</b>.</p>
+    <p>Your access token is: <b>{{ token_data.access_token }}</b></p>
+    <p>Copy this access token to the CodeMe plugin and enjoy using CodeMe now! &#129302;</p>
+</body>
 </html>
