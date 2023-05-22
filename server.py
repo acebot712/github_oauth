@@ -83,7 +83,7 @@ async def sign_out(sign_out_request: SignOutRequest):
         c = conn.cursor()
 
         # Remove the access token
-        c.execute("UPDATE access_tokens SET access_token = NULL WHERE user_id = ? AND login_id", (user_id, login_id,))
+        c.execute("UPDATE access_tokens SET access_token = NULL WHERE user_id = ? AND login_id = ?", (user_id, login_id,))
 
         # Commit the changes
         conn.commit()
