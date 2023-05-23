@@ -60,13 +60,20 @@
 
         document.getElementById("copyButton").addEventListener("click", function() {
             var access_token = document.getElementById("accessToken").innerText;
-            navigator.clipboard.writeText(access_token)
-                .then(() => {
-                    console.log('Text copied to clipboard');
-                })
-                .catch((error) => {
-                    console.error('Error copying text to clipboard:', error);
-                });
+
+            // Create a temporary textarea element
+            var textarea = document.createElement("textarea");
+            textarea.value = access_token;
+            document.body.appendChild(textarea);
+
+            // Copy the text from the textarea
+            textarea.select();
+            document.execCommand("copy");
+
+            // Remove the temporary textarea
+            document.body.removeChild(textarea);
+
+            console.log('Text copied to clipboard');
         });
     </script>
 </body>
