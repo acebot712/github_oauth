@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <title>Login with GitHub</title>
@@ -24,13 +25,48 @@
         b {
             font-weight: bold;
         }
+
+        .copy-button {
+            display: inline-block;
+            background-color: #ffffff;
+            color: #7c6e6e;
+            cursor: pointer;
+            border: none;
+            padding: 3px;
+            border-radius: 5px;
+        }
+
+        .copy-button:hover {
+            color: rgb(0, 0, 0);
+            background-color: #7c6e6e3b;
+        }
     </style>
 </head>
 <body>
     <h1>Login with GitHub</h1>
     <hr>
     <p>You have successfully logged in with GitHub as <b>{{ user_data.login }}</b>.</p>
-    <p>Your access token is: <b>{{ token_data.access_token }}</b></p>
-    <p>Copy this access token to the CodeMe plugin and enjoy using CodeMe now! &#129302;</p>
+    <p>Your access token is: <b>{{ token_data.access_token }}</b>
+        <button class="copy-button" onclick="copyToClipboard('{{ token_data.access_token }}')">
+            <i data-feather="clipboard"></i>
+        </button></p>
+    <p>
+        Copy this access token to the CodeMe plugin and enjoy using CodeMe now! &#129302;
+    </p>
+
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+        feather.replace({ 'width': 16, 'height': 16 });
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    console.log('Text copied to clipboard');
+                })
+                .catch((error) => {
+                    console.error('Error copying text to clipboard:', error);
+                });
+        }
+    </script>
 </body>
 </html>
