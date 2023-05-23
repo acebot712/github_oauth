@@ -46,8 +46,8 @@
     <h1>Login with GitHub</h1>
     <hr>
     <p>You have successfully logged in with GitHub as <b>{{ user_data.login }}</b>.</p>
-    <p>Your access token is: <b>{{ token_data.access_token }}</b>
-        <button class="copy-button" onclick="copyToClipboard('{{ token_data.access_token }}')">
+    <p>Your access token is: <span id="accessToken"><b>{{ token_data.access_token }}</b></span>
+        <button class="copy-button" onclick="copyToClipboard()">
             <i data-feather="clipboard"></i>
         </button></p>
     <p>
@@ -58,8 +58,9 @@
     <script>
         feather.replace({ 'width': 16, 'height': 16 });
 
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text)
+        function copyToClipboard() {
+            let access_token = document.getElementById("accessToken").innerText;
+            navigator.clipboard.writeText(access_token)
                 .then(() => {
                     console.log('Text copied to clipboard');
                 })
